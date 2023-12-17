@@ -27,6 +27,6 @@ type CommandUsecase interface {
 
 // QueryUsecase interface
 type QueryUsecase interface {
-	GetChatDetail(ctx context.Context, payload models.Chats)
-	GetMessageHistory(ctx context.Context, payload models.Chats) utils.Result
+	// GetChatDetail(ctx context.Context, payload models.Chats)
+	// GetMessageHistory(ctx context.Context, payload models.Chats) utils.Result
 }
