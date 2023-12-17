@@ -19,3 +19,13 @@
 
 # Go workspace file
 go.work
+.idea/
+.vscode
+vendor
+
+.env
+*.out
+coverages/index.html
+nodemon.json
+coverage.out
+coverage.html
