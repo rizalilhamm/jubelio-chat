@@ -21,6 +21,9 @@ type Env struct {
 	PostgresMaxIdleConns int
 	PostgresMaxOpenConns int
 	PostgresMaxLifeTime  int
+
+	BasicAuthUsername string
+	BasicAuthPassword string
 }
 
 var GlobalEnv Env
@@ -64,6 +67,15 @@ func init() {
 	GlobalEnv.PostgresSSLMode, ok = os.LookupEnv("POSTGRES_DB_SSLMODE")
 	if !ok {
 		panic("missing POSTGRES_DB_SSLMODE environment")
+	}
+	GlobalEnv.PostgresDBName, ok = os.LookupEnv("BASIC_AUTH_USERNAME")
+	if !ok {
+		panic("missing BASIC_AUTH_USERNAME environment")
+	}
+
+	GlobalEnv.PostgresSSLMode, ok = os.LookupEnv("BASIC_AUTH_PASSWORD")
+	if !ok {
+		panic("missing BASIC_AUTH_PASSWORD environment")
 	}
 
 }
