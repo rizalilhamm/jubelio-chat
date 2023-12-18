@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	"jubelio.com/chat/migrations/models"
+	"jubelio.com/chat/modules/chats/models"
 	"jubelio.com/chat/modules/chats/repositories/commands"
 	"jubelio.com/chat/modules/chats/repositories/queries"
 	"jubelio.com/chat/packages/utils"
@@ -94,6 +94,5 @@ func (u usecase) SendMessage(ctx context.Context, chatPayload models.Chats, mess
         return result
     }
     result.Data = "Berhasil Running SendMessage Method"
-
     return result
 }
