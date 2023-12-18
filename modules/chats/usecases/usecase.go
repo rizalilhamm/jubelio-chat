@@ -3,7 +3,7 @@ package usecases
 import (
 	"context"
 
-	"jubelio.com/chat/migrations/models"
+	"jubelio.com/chat/modules/chats/models"
 	"jubelio.com/chat/modules/chats/repositories/commands"
 	"jubelio.com/chat/modules/chats/repositories/queries"
 	"jubelio.com/chat/packages/utils"
@@ -28,6 +28,6 @@ type CommandUsecase interface {
 // QueryUsecase interface
 type QueryUsecase interface {
 	FetchMessage(ctx context.Context, payload models.Chats) utils.Result
-	// GetChatDetail(ctx context.Context, payload models.Chats)
+	GetChatHistory(ctx context.Context, payload models.RequestChat) utils.Result
 	// GetSearchMessage(ctx context.Context, payload models.Chats) utils.Result
 }
