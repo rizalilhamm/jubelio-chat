@@ -18,14 +18,14 @@ func (u usecase) FetchMessage(ctx context.Context, payload models.Chats) utils.R
 	return result
 }
 
-func (u usecase) GetChatHistory(ctx context.Context, payload models.RequestChat) utils.Result {
+func (u usecase) GetChatHistory(ctx context.Context, chatPayload models.RequestChat) utils.Result {
 	var result utils.Result
 
 	queryChatPayload := queries.QueryPayload{
 		Table: "chats",
 		Select: "chat_id",
 		Query: "chat_name = @chat_name",
-		Parameter: map[string]interface{}{"chat_name": payload.ChatName},
+		Parameter: map[string]interface{}{"chat_name": chatPayload.ChatName},
 		Order: "sent_at ASC",
 	}
 
