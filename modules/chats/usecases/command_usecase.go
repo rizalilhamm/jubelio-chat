@@ -39,10 +39,6 @@ func (u usecase) SendMessage(ctx context.Context, chatPayload models.Chats, mess
         result.Data = "Data Not Found"
         return result
     }
-    /* 
-    NOTE:
-        - Chat Name: senderID + receiverID
-    */
     chatName := strconv.Itoa(messagePayload.SenderID) + strconv.Itoa(messagePayload.ReceiverID)
 
     findChat := queries.QueryPayload{
@@ -51,12 +47,6 @@ func (u usecase) SendMessage(ctx context.Context, chatPayload models.Chats, mess
         Query: "chat_name = @chat_name",
         Parameter: map[string]interface{}{"chat_name": chatName},
     }
-
-    /*
-    NOTE:
-        - Jika chat tidak ditemukan, maka create baru
-        - Jika chat ditemukan, maka lanjutkan dengan yang sudah ada
-    */
 
     chatHistory := <-u.postgreQuery.FindOne(&findChat)
 
@@ -67,10 +57,6 @@ func (u usecase) SendMessage(ctx context.Context, chatPayload models.Chats, mess
         messagePayload.ChatID = chat.ChatID
 
     } else if reflect.ValueOf(chatHistory.Data).IsNil() && chatHistory.Error == nil {
-        /*
-        NOTE:
-            - Create new Chat row
-        */
         chatCommandPayload := commands.CommandPayload{
             Table: "chats",
             Document: chatPayload,

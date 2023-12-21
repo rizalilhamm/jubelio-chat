@@ -46,7 +46,7 @@ func (h *HTTPHandler) SendMessage(c *fiber.Ctx) error {
 	ctx := context.Background()
 
 	result := h.commandUsecase.SendMessage(ctx, *chatPayload, *messagesPayload)
-
+	
 	if result.Error != nil {
 		return utils.Response(c, result.Error, "Failed to send message", fiber.StatusInternalServerError)
 	}
