@@ -1,13 +1,15 @@
 package handlers
 
 import (
-	"jubelio.com/chat/modules/chats/usecases"
+	"context"
+
+	"github.com/gofiber/fiber/v2"
+	"jubelio.com/chat/modules/chats/models"
 	"jubelio.com/chat/modules/chats/repositories/commands"
 	"jubelio.com/chat/modules/chats/repositories/queries"
+	"jubelio.com/chat/modules/chats/usecases"
 	databases "jubelio.com/chat/packages/databases"
-	"github.com/gofiber/fiber/v2"
-    "jubelio.com/chat/packages/utils"
-
+	"jubelio.com/chat/packages/utils"
 )
 
 type HTTPHandler struct {
@@ -31,15 +33,35 @@ func New() *HTTPHandler {
 }
 
 func (h *HTTPHandler) Mount(app *fiber.App) {
-    api := app.Group("/v1/chats")
+	api := app.Group("/v1/chats")
 
-    // GET /v1/points/list
-    api.Get("/send-message", h.SendMessage,)
+	api.Post("/messages", h.SendMessage)
+	// api.Get("/messages", )
 }
 
 func (h *HTTPHandler) SendMessage(c *fiber.Ctx) error {
-	// data := c.Params("id")
+
+	var chatPayload = new(models.Chats)
+	var messagesPayload = new(models.Messages)
+	ctx := context.Background()
+
+	result := h.commandUsecase.SendMessage(ctx, *chatPayload, *messagesPayload)
+	
+	if result.Error != nil {
+		return utils.Response(c, result.Error, "Failed to send message", fiber.StatusInternalServerError)
+	}
 
 	return utils.Response(c, nil, "Send Message Success", fiber.StatusOK)
+}
 
+func (h *HTTPHandler) GetChatHistory(c *fiber.Ctx) error {
+	chatPayload := new(models.RequestChat)
+	ctx := context.Background()
+
+	result := h.queryUsecase.GetChatHistory(ctx, *chatPayload)
+
+	if result.Error != nil {
+		return utils.Response(c, result.Error, "Failed to  GetChatHistory", fiber.StatusInternalServerError)
+	}
+	return utils.Response(c, nil, "GetChatHistory Success", fiber.StatusOK)
 }
